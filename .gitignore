@@ -1,0 +1,64 @@
+### Build Artifacts ###
+target/
+build/
+out/
+bin/
+*.arc
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+### Spring Boot Specific ###
+HELP.md
+.mvn/wrapper/maven-wrapper.jar
+
+### Log Files ###
+*.log
+logs/
+
+### Security & Environment (QUAN TRỌNG) ###
+.env
+.env.*
+application-local.properties
+application-dev.properties
+# Tránh đẩy mật khẩu DB cá nhân lên Github
+/src/main/resources/application-*.properties
+!/src/main/resources/application.properties
+
+### IDE Settings ###
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Eclipse / STS
+.settings/
+.project
+.classpath
+.factorypath
+.springBeans
+.sts4-cache
+.apt_generated
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### OS Files ###
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+desktop.ini
