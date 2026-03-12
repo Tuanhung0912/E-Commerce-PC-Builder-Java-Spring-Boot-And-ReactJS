@@ -3,7 +3,9 @@ package com.ecommerce.project.Controller;
 
 import com.ecommerce.project.model.Product;
 import com.ecommerce.project.payload.ProductDTO;
+import com.ecommerce.project.payload.ProductResponse;
 import com.ecommerce.project.service.ProductService;
+import jakarta.persistence.GeneratedValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,5 +24,11 @@ public class ProductController {
 
         ProductDTO productDTO = productService.addProduct(categoryId, product);
         return new ResponseEntity<>(productDTO, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/public/products")
+    public ResponseEntity<ProductResponse> getAllProducts() {
+        ProductResponse productResponse = productService.getAllProducts();
+        return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
 }
