@@ -46,13 +46,13 @@ public class Address {
     private String country;
 
     @NotBlank
-    @Size(min = 6, message = "PinCode Name name must be atleast 5 characters")
+    @Size(min = 5, message = "PinCode Name name must be atleast 5 characters")
     private String pinCode;
 
 
-    @ToString.Exclude
-    @ManyToMany(mappedBy = "addresses")
-    private List<User> users = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 
 
