@@ -5,6 +5,8 @@ import com.ecommerce.project.payload.CartDTO;
 import com.ecommerce.project.repositories.CartRepository;
 import com.ecommerce.project.service.CartService;
 import com.ecommerce.project.util.AuthUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,8 @@ public class CartController {
     @Autowired
     private AuthUtil authUtil;
 
+    @Tag(name = "Cart APIs", description = "APIs for managing carts")
+    @Operation(summary = "Add products to cart", description = "API to add products to cart")
     @PostMapping("/carts/products/{productId}/quantity/{quantity}")
     public ResponseEntity<CartDTO> addProductToCart(@PathVariable Long productId,
                                                     @PathVariable Integer quantity){
@@ -32,12 +36,16 @@ public class CartController {
         return new ResponseEntity<CartDTO>(cartDTO, HttpStatus.CREATED);
     }
 
+    @Tag(name = "Cart APIs", description = "APIs for managing carts")
+    @Operation(summary = "Get all carts", description = "API to get all carts")
     @GetMapping("/carts")
     public ResponseEntity<List<CartDTO>> getCarts() {
         List<CartDTO> cartDTOs = cartService.getAllCarts();
         return new ResponseEntity<List<CartDTO>>(cartDTOs, HttpStatus.FOUND);
     }
 
+    @Tag(name = "Cart APIs", description = "APIs for managing carts")
+    @Operation(summary = "Get cart by Id", description = "API to get cart by Id")
     @GetMapping("/carts/users/cart")
     public ResponseEntity<CartDTO> getCartById(){
         String emailId = authUtil.loggedInEmail();
@@ -47,6 +55,8 @@ public class CartController {
         return new ResponseEntity<CartDTO>(cartDTO, HttpStatus.OK);
     }
 
+    @Tag(name = "Cart APIs", description = "APIs for managing carts")
+    @Operation(summary = "Update product quantity from cart", description = "API to update product quantity from cart")
     @PutMapping("/cart/products/{productId}/quantity/{operation}")
     public ResponseEntity<CartDTO> updateCartProduct(@PathVariable Long productId,
                                                      @PathVariable String operation) {
@@ -57,6 +67,8 @@ public class CartController {
         return new ResponseEntity<CartDTO>(cartDTO, HttpStatus.OK);
     }
 
+    @Tag(name = "Cart APIs", description = "APIs for managing carts")
+    @Operation(summary = "Delete product from cart", description = "API to Delete product from cart")
     @DeleteMapping("/carts/{cartId}/product/{productId}")
     public ResponseEntity<String> deleteProductFromCart(@PathVariable Long cartId,
                                                         @PathVariable Long productId) {

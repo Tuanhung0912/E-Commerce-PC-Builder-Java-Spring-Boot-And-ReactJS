@@ -11,6 +11,8 @@ import com.ecommerce.project.security.request.SignupRequest;
 import com.ecommerce.project.security.response.MessageResponse;
 import com.ecommerce.project.security.response.UserInfoResponse;
 import com.ecommerce.project.security.services.UserDetailsImpl;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -47,6 +49,8 @@ public class AuthController {
     @Autowired
     PasswordEncoder encoder;
 
+    @Tag(name = "Authentication APIs", description = "APIs for managing authenticate")
+    @Operation(summary = "Sign in", description = "API to sign in an existing account")
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         Authentication authentication;
@@ -78,6 +82,8 @@ public class AuthController {
                 .body(response);
     }
 
+    @Tag(name = "Authentication APIs", description = "APIs for managing authenticate")
+    @Operation(summary = "Sign up", description = "API to sign up an new account")
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUserName(signUpRequest.getUsername())) {
@@ -129,6 +135,8 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
+    @Tag(name = "Authentication APIs", description = "APIs for managing authenticate")
+    @Operation(summary = "Get current username", description = "API to get current username")
     @GetMapping("/username")
     public String currentUserName(Authentication authentication){
         if (authentication != null)
@@ -137,6 +145,8 @@ public class AuthController {
             return "";
     }
 
+    @Tag(name = "Authentication APIs", description = "APIs for managing authenticate")
+    @Operation(summary = "Get user details", description = "API to get user details information")
     @GetMapping("/user")
     public ResponseEntity<?> getUserDetails(Authentication authentication){
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -151,6 +161,8 @@ public class AuthController {
         return ResponseEntity.ok().body(response);
     }
 
+    @Tag(name = "Authentication APIs", description = "APIs for managing authenticate")
+    @Operation(summary = "Sign out method", description = "API to sign out")
     @PostMapping("/signout")
     public ResponseEntity<?> signOutUser(){
         ResponseCookie cookie = jwtUtils.getCleanJwtCookie();

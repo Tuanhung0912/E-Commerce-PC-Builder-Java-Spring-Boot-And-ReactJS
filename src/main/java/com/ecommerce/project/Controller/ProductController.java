@@ -6,6 +6,8 @@ import com.ecommerce.project.model.Product;
 import com.ecommerce.project.payload.ProductDTO;
 import com.ecommerce.project.payload.ProductResponse;
 import com.ecommerce.project.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.GeneratedValue;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
+    @Tag(name = "Product APIs", description = "APIs for managing products")
+    @Operation(summary = "Create product", description = "API to create new product")
     @PostMapping("/admin/categories/{categoryId}/product")
     public ResponseEntity<ProductDTO> addProduct(@Valid @RequestBody ProductDTO productDTO,
                                                  @PathVariable("categoryId") Long categoryId) {
@@ -33,6 +37,8 @@ public class ProductController {
         return new ResponseEntity<>(savedProductDTO, HttpStatus.CREATED);
     }
 
+    @Tag(name = "Product APIs", description = "APIs for managing products")
+    @Operation(summary = "Get all products", description = "API to view all products")
     @GetMapping("/public/products")
     public ResponseEntity<ProductResponse> getAllProducts(
             @RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
@@ -44,6 +50,8 @@ public class ProductController {
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
 
+    @Tag(name = "Product APIs", description = "APIs for managing products")
+    @Operation(summary = "Get product by category", description = "API to get product by categoryId")
     @GetMapping("/public/categories/{categoryId}/products")
     public ResponseEntity<ProductResponse> getProductsByCategory(@PathVariable("categoryId") Long categoryId,
                                                                  @RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
@@ -54,6 +62,8 @@ public class ProductController {
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
 
+    @Tag(name = "Product APIs", description = "APIs for managing products")
+    @Operation(summary = "Get product by keyword", description = "API to get product by keyword")
     @GetMapping("/public/products/keyword/{keyword}")
     public ResponseEntity<ProductResponse> getProductsByKeyword(@PathVariable String keyword,
                                                                 @RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
@@ -64,6 +74,8 @@ public class ProductController {
         return new ResponseEntity<>(productResponse, HttpStatus.FOUND);
     }
 
+    @Tag(name = "Product APIs", description = "APIs for managing products")
+    @Operation(summary = "Update product", description = "API to update product")
     @PutMapping("/admin/products/{productId}")
     public ResponseEntity<ProductDTO> updateProduct(@Valid @RequestBody ProductDTO productDTO,
                                                     @PathVariable Long productId) {
@@ -71,12 +83,16 @@ public class ProductController {
         return new ResponseEntity<>(updatedProductDTO, HttpStatus.OK);
     }
 
+    @Tag(name = "Product APIs", description = "APIs for managing products")
+    @Operation(summary = "Delete product", description = "API to delete product")
     @DeleteMapping("/admin/products/{productId}")
     public ResponseEntity<ProductDTO> deleteProduct(@PathVariable Long productId) {
         ProductDTO deleteProduct = productService.deleteProduct(productId);
         return new ResponseEntity<>(deleteProduct, HttpStatus.OK);
     }
 
+    @Tag(name = "Product APIs", description = "APIs for managing products")
+    @Operation(summary = "Update image product", description = "API to update image product")
     @PutMapping("/products/{productId}/image")
     public ResponseEntity<ProductDTO> updateProductImage(@PathVariable Long productId,
                                                          @RequestParam("image")MultipartFile image) throws IOException {

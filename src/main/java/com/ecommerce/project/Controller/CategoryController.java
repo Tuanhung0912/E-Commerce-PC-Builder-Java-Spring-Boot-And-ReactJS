@@ -5,6 +5,8 @@ import com.ecommerce.project.model.Category;
 import com.ecommerce.project.payload.CategoryDTO;
 import com.ecommerce.project.payload.CategoryResponse;
 import com.ecommerce.project.service.CategoryService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,17 +26,14 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-//    @GetMapping("/echo")
-//    public ResponseEntity<String> echoMessage(@RequestParam(name = "message") String message) {
-//        return new ResponseEntity<>("Echoed message: " + message, HttpStatus.OK);
-//    }
-
-
 
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
+
+    @Tag(name = "Category APIs", description = "APIs for managing categories")
+    @Operation(summary = "Get all categories", description = "API to view all categories")
     @GetMapping("/public/categories")
     //@RequestMapping(value = "/public/categories", method = RequestMethod.GET)
     public ResponseEntity<CategoryResponse> getAllCategories(
@@ -47,6 +46,8 @@ public class CategoryController {
         return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
     }
 
+    @Tag(name = "Category APIs", description = "APIs for managing categories")
+    @Operation(summary = "Create category", description = "API to create a new category")
     @PostMapping("/public/categories")
     //@RequestMapping(value = "/public/categories", method = RequestMethod.POST)
     public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
@@ -54,6 +55,8 @@ public class CategoryController {
         return new ResponseEntity<>(savedCategoryDTO,HttpStatus.CREATED);
     }
 
+    @Tag(name = "Category APIs", description = "APIs for managing categories")
+    @Operation(summary = "Delete category", description = "API to delete a category")
     @DeleteMapping("/admin/categories/{categoryId}")
     public ResponseEntity<CategoryDTO> deleteCategory(@PathVariable Long categoryId) {
         CategoryDTO deleteCategory = categoryService.deleteCategory(categoryId);
@@ -61,6 +64,8 @@ public class CategoryController {
         //return ResponseEntity.status(HttpStatus.OK).body(status);
     }
 
+    @Tag(name = "Category APIs", description = "APIs for managing categories")
+    @Operation(summary = "Update category", description = "API to update a category")
     @PutMapping("/admin/categories/{categoryId}")
     public ResponseEntity<CategoryDTO> updateCategory(@RequestBody CategoryDTO categoryDTO,
                                                  @PathVariable Long categoryId) {
