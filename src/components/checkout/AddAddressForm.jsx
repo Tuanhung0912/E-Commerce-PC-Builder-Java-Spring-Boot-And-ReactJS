@@ -9,7 +9,6 @@ import { addUpdateUserAddress } from '../../store/actions';
 
 const AddAddressForm = ({ address, setOpenAddressModal }) => {
     const dispatch = useDispatch();
-
     const { btnLoader } = useSelector((state) => state.errors);
     const {
             register,
@@ -42,7 +41,7 @@ const AddAddressForm = ({ address, setOpenAddressModal }) => {
                 <InputField
                     label="Building Name"
                     required
-                    id="building"
+                    id="buildingName"
                     type="text"
                     message="*Building Name is required"
                     placeholder="Enter Building Name"
@@ -107,7 +106,7 @@ const AddAddressForm = ({ address, setOpenAddressModal }) => {
 
             <button
                 disabled={btnLoader}
-                className="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md mt-4 w-full"
+                className="text-white bg-blue-600 px-4 py-2 rounded-md mt-4 hover:bg-blue-700"
                 type="submit">
                 {btnLoader ? (
                     <>

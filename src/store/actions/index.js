@@ -70,6 +70,7 @@ export const addToCart = (data, qty = 1, toast) =>
         }
 };
 
+
 export const increaseCartQuantity = 
     (data, toast, currentQuantity, setCurrentQuantity) =>
     (dispatch, getState) => {
@@ -94,7 +95,10 @@ export const increaseCartQuantity =
         } else {
             toast.error("Quantity Reached to Limit");
         }
-};
+
+    };
+
+
 
 export const decreaseCartQuantity = 
     (data, newQuantity) => (dispatch, getState) => {
@@ -103,13 +107,14 @@ export const decreaseCartQuantity =
             payload: {...data, quantity: newQuantity},
         });
         localStorage.setItem("cartItems", JSON.stringify(getState().carts.cart));
-};
+    }
 
 export const removeFromCart =  (data, toast) => (dispatch, getState) => {
     dispatch({type: "REMOVE_CART", payload: data });
     toast.success(`${data.productName} removed from cart`);
     localStorage.setItem("cartItems", JSON.stringify(getState().carts.cart));
 }
+
 
 
 export const authenticateSignInUser 
@@ -128,7 +133,7 @@ export const authenticateSignInUser
         } finally {
             setLoader(false);
         }
-};
+}
 
 
 export const registerNewUser 
@@ -154,14 +159,13 @@ export const logOutUser = (navigate) => (dispatch) => {
     navigate("/login");
 };
 
-
 export const addUpdateUserAddress =
-     (sendData, toast, addressId, setOpenAddressModal) => async (dispatch, getState) => {
-    // const { user } = getState().auth;
+    (sendData, toast, addressId, setOpenAddressModal) => async (dispatch, getState) => {
     dispatch({ type:"BUTTON_LOADER" });
     try {
         const { data } = await api.post("/addresses", sendData);
         toast.success("Address saved successfully");
+        dispatch({ type:"IS_SUCCESS" });
     } catch (error) {
         console.log(error);
         toast.error(error?.response?.data?.message || "Internal Server Error");
