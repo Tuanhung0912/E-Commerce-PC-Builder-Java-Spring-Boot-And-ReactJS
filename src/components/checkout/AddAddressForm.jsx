@@ -107,7 +107,7 @@ const AddAddressForm = ({ address, setOpenAddressModal }) => {
 
             <button
                 disabled={btnLoader}
-                className="text-white bg-Blue-500 hover:bg-Blue-600 px-4 py-2 rounded-md mt-4"
+                className="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md mt-4 w-full"
                 type="submit">
                 {btnLoader ? (
                     <>
