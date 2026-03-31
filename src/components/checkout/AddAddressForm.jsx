@@ -2,10 +2,13 @@ import React from 'react'
 import InputField from '../shared/InputField'
 import { useForm } from 'react-hook-form';
 import { FaAddressCard } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Spinners from '../shared/Spinners';
+import toast from 'react-hot-toast';
+import { addUpdateUserAddress } from '../../store/actions';
 
-const AddAddressForm = () => {
+const AddAddressForm = ({ address, setOpenAddressModal }) => {
+    const dispatch = useDispatch();
 
     const { btnLoader } = useSelector((state) => state.errors);
     const {
@@ -18,7 +21,12 @@ const AddAddressForm = () => {
         });
 
         const onSaveAddressHandler = async (data) => {
-            console.log("Login Click");
+            dispatch(addUpdateUserAddress(
+                data,
+                toast,
+                address?.addressId,
+                setOpenAddressModal
+            ));
         };
 
   return (
@@ -67,7 +75,7 @@ const AddAddressForm = () => {
                 <InputField
                     label="Pincode"
                     required
-                    id="pincode"
+                    id="pinCode"
                     type="text"
                     message="*Pincode is required"
                     placeholder="Enter Pincode"
@@ -99,7 +107,7 @@ const AddAddressForm = () => {
 
             <button
                 disabled={btnLoader}
-                className="text-white bg-customBlue px-4 py-2 rounded-md mt-4"
+                className="text-white bg-Blue-500 hover:bg-Blue-600 px-4 py-2 rounded-md mt-4"
                 type="submit">
                 {btnLoader ? (
                     <>
