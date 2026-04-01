@@ -2,8 +2,12 @@ package com.ecommerce.project.Controller;
 
 import com.ecommerce.project.payload.OrderDTO;
 import com.ecommerce.project.payload.OrderRequestDTO;
+import com.ecommerce.project.payload.StripePaymentDTO;
 import com.ecommerce.project.service.OrderService;
+import com.ecommerce.project.service.StripeService;
 import com.ecommerce.project.util.AuthUtil;
+import com.stripe.exception.StripeException;
+import com.stripe.model.PaymentIntent;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +25,9 @@ public class OrderController {
     @Autowired
     private AuthUtil authUtil;
 
+    @Autowired
+    private StripeService stripeService;
+
     @Tag(name = "Order APIs", description = "APIs for managing orders")
     @Operation(summary = "Order placement", description = "API to Order placement")
     @PostMapping("/order/users/payments/{paymentMethod}")
@@ -37,4 +44,13 @@ public class OrderController {
         );
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
+
+    @Tag(name = "Order APIs", description = "APIs for managing orders")
+    @Operation(summary = "Order placement (Stripe)", description = "API to Order placement using Stripe")
+    @PostMapping("/order/stripe-client-secret")
+    public ResponseEntity<String> createStripeClientSecret(@RequestBody StripePaymentDTO stripePaymentDto) throws StripeException {
+        PaymentIntent paymentIntent = stripeService.paymentIntent(stripePaymentDto);
+        return new ResponseEntity<>(paymentIntent.getClientSecret(), HttpStatus.CREATED);
+    }
 }
+
