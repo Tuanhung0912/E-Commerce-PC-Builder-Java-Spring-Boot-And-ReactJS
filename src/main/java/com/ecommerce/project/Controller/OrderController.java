@@ -33,6 +33,7 @@ public class OrderController {
     @PostMapping("/order/users/payments/{paymentMethod}")
     public ResponseEntity<OrderDTO> orderProducts(@PathVariable String paymentMethod, @RequestBody OrderRequestDTO orderRequestDTO) {
         String emailId = authUtil.loggedInEmail();
+        System.out.println("orderRequestDTO DATA: " + orderRequestDTO);
         OrderDTO order = orderService.placeOrder(
                 emailId,
                 orderRequestDTO.getAddressId(),
@@ -48,8 +49,9 @@ public class OrderController {
     @Tag(name = "Order APIs", description = "APIs for managing orders")
     @Operation(summary = "Order placement (Stripe)", description = "API to Order placement using Stripe")
     @PostMapping("/order/stripe-client-secret")
-    public ResponseEntity<String> createStripeClientSecret(@RequestBody StripePaymentDTO stripePaymentDto) throws StripeException {
-        PaymentIntent paymentIntent = stripeService.paymentIntent(stripePaymentDto);
+    public ResponseEntity<String> createStripeClientSecret(@RequestBody StripePaymentDTO stripePaymentDTO) throws StripeException {
+        System.out.println("StripePaymentDTO Received " + stripePaymentDTO);
+        PaymentIntent paymentIntent = stripeService.paymentIntent(stripePaymentDTO);
         return new ResponseEntity<>(paymentIntent.getClientSecret(), HttpStatus.CREATED);
     }
 }
