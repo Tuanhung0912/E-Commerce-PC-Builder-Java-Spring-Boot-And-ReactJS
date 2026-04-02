@@ -39,7 +39,7 @@ function App() {
             <Route path='/register' element={ <Register />}/>
           </Route>
 
-          <Route path='/' element={<PrivateRoute />}>
+          <Route path='/' element={<PrivateRoute adminOnly />}>
             <Route path='/admin' element={ <AdminLayout />}/>
           </Route>
 
