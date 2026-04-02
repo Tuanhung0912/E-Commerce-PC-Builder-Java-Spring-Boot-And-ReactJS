@@ -1,5 +1,5 @@
+import { FaBoxOpen, FaHome, FaShoppingCart, FaStore, FaThList } from "react-icons/fa";
 import { bannerImageOne, bannerImageThree, bannerImageTwo } from "./constant";
-import { FaBoxOpen, FaHome, FaStore, FaThList } from "react-icons/fa";
 
 export const bannerLists = [
     {
@@ -20,10 +20,11 @@ export const bannerLists = [
         id: 3,
         image: bannerImageThree,
         title: "Playful Picks",
-        subtitle: "Colorful Clothing",
-        description: "Bright and fun styles for all ages, up to 20% off",
+        subtitle: "Kids' Clothing",
+        description: "Bright and fun styles for kids, up to 20% off",
     }
 ];
+
 
 export const adminNavigation = [
   {
@@ -31,6 +32,10 @@ export const adminNavigation = [
     href: "/admin", 
     icon: FaHome, 
     current: true 
+  }, {
+    name: "Orders", 
+    href: "/admin/orders", 
+    icon: FaShoppingCart
   }, {
     name: "Products", 
     href: "/admin/products", 
