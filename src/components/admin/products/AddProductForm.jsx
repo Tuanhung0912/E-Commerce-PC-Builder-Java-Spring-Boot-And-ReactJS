@@ -15,6 +15,8 @@ const [loader, setLoader] = useState(false);
 const [selectedCategory, setSelectedCategory] = useState();
 const { categories } = useSelector((state) => state.products);
 const { categoryLoader, errorMessage } = useSelector((state) => state.errors);
+const { user } = useSelector((state) => state.auth);
+const isAdmin = user && user?.roles?.includes("ROLE_ADMIN");
 
 const dispatch = useDispatch();
     const {
@@ -35,14 +37,14 @@ const dispatch = useDispatch();
                 categoryId: selectedCategory.categoryId,
             };
             dispatch(addNewProductFromDashboard(
-                sendData, toast, reset, setLoader, setOpen
+                sendData, toast, reset, setLoader, setOpen, isAdmin
             ));
         } else {
             const sendData = {
                 ...data,
                 id: product.id,
             };
-            dispatch(updateProductFromDashboard(sendData, toast, reset, setLoader, setOpen));
+            dispatch(updateProductFromDashboard(sendData, toast, reset, setLoader, setOpen, isAdmin));
         }
     };
 
@@ -156,6 +158,7 @@ const dispatch = useDispatch();
                 className={`px-4 py-2 w-full border outline-hidden bg-transparent text-slate-800 rounded-md ${
                     errors["description"]?.message ? "border-red-500" : "border-slate-700" 
                 }`}
+                maxLength={255}
                 {...register("description", {
                     required: {value: true, message:"Description is required"},
                 })}
@@ -187,7 +190,7 @@ const dispatch = useDispatch();
                         <Spinners /> Loading...
                     </div>
                 ) : (
-                    "Update"
+                    "Save"
                 )}
             </Button>
         </div>

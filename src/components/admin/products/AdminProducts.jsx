@@ -16,6 +16,9 @@ import ProductViewModal from '../../shared/ProductViewModal';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 const AdminProducts = () => {
+  // const products = [{ "productId": 52, "productName": "iPad Pro", "image": "http://localhost:8080/images/7a7b38c4-2342-4d10-89e9-2c5b3c4fdb44.png", "description": "High-performance Tablet with a 4K display and powerful camera", "quantity": 30, "price": 1800.0, "discount": 43.0, "specialPrice": 1026.0 }, { "productId": 2, "productName": "iPhone 16 Pro Max", "image": "http://localhost:8080/images/22185fd1-024a-4708-9a10-832b8a50bfde.png", "description": "High-performance phone with a 4K display and powerful camera", "quantity": 19, "price": 1400.0, "discount": 23.0, "specialPrice": 1078.0 }];
+  // const pagination = { pageNumber: 0, pageSize: 50, totalElements: 11, totalPages: 1, lastPage: true };
+  
   const {products, pagination} = useSelector((state) => state.products);
   const { isLoading, errorMessage } = useSelector((state) => state.errors);
   const [currentPage, setCurrentPage] = useState(
@@ -37,6 +40,9 @@ const AdminProducts = () => {
   const [searchParams] = useSearchParams();
   const params = new URLSearchParams(searchParams);
   const pathname = useLocation().pathname;
+
+  const { user } = useSelector((state) => state.auth);
+  const isAdmin = user && user?.roles?.includes("ROLE_ADMIN");
 
   useDashboardProductFilter();
 
@@ -81,10 +87,10 @@ const handlePaginationChange = (paginationModel) => {
   navigate(`${pathname}?${params}`)
 };
 
-const onDeleteHandler = () => {
-  dispatch(deleteProduct(setLoader, selectedProduct?.id, toast, setOpenDeleteModal));
-};
 
+const onDeleteHandler = () => {
+  dispatch(deleteProduct(setLoader, selectedProduct?.id, toast, setOpenDeleteModal, isAdmin));
+};
 
   const emptyProduct = !products || products?.length ===0;
   return (
@@ -161,6 +167,7 @@ const onDeleteHandler = () => {
           />
     </Modal>
 
+
     <Modal
       open={openImageUploadModal}
       setOpen={setOpenImageUploadModal}
@@ -171,6 +178,7 @@ const onDeleteHandler = () => {
           />
     </Modal>
 
+
     <DeleteModal
       open={openDeleteModal}
       setOpen={setOpenDeleteModal}
@@ -178,11 +186,11 @@ const onDeleteHandler = () => {
       title="Delete Product"
       onDeleteHandler={onDeleteHandler} />
 
-    <ProductViewModal 
+      <ProductViewModal 
         open={openProductViewModal}
         setOpen={setOpenProductViewModal}
-        product={selectedProduct} />
-
+        product={selectedProduct}
+      />
     </div>
   )
 }
