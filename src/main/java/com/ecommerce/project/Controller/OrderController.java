@@ -88,5 +88,14 @@ public class OrderController {
         OrderResponse orderResponse = orderService.getAllSellerOrders(pageNumber, pageSize, sortBy, sortOrder);
         return new ResponseEntity<OrderResponse>(orderResponse, HttpStatus.OK);
     }
+
+    @Tag(name = "Order APIs", description = "APIs for managing orders")
+    @Operation(summary = "Update Order Status for Seller", description = "API to Update Order Status for Seller")
+    @PutMapping("/seller/orders/{orderId}/status")
+    public ResponseEntity<OrderDTO> updateOrderStatusSeller(@PathVariable Long orderId,
+                                                            @RequestBody OrderStatusUpdateDTO orderStatusUpdateDTO) {
+        OrderDTO order = orderService.updateOrder(orderId, orderStatusUpdateDTO.getStatus());
+        return new ResponseEntity<OrderDTO>(order, HttpStatus.OK);
+    }
 }
 
