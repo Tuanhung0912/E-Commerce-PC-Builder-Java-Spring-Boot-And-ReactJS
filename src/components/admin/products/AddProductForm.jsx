@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import InputField from '../../shared/InputField';
 import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCategories, updateProductFromDashboard } from '../../../store/actions';
+import { addNewProductFromDashboard, fetchCategories, updateProductFromDashboard } from '../../../store/actions';
 import toast from 'react-hot-toast';
 import Spinners from '../../shared/Spinners';
 import SelectTextField from '../../shared/SelectTextField';
@@ -30,6 +30,13 @@ const dispatch = useDispatch();
     const saveProductHandler = (data) => {
         if(!update) {
             // create new product logic
+            const sendData = {
+                ...data,
+                categoryId: selectedCategory.categoryId,
+            };
+            dispatch(addNewProductFromDashboard(
+                sendData, toast, reset, setLoader, setOpen
+            ));
         } else {
             const sendData = {
                 ...data,
