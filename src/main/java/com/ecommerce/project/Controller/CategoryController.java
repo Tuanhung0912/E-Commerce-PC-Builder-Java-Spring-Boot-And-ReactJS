@@ -48,7 +48,7 @@ public class CategoryController {
 
     @Tag(name = "Category APIs", description = "APIs for managing categories")
     @Operation(summary = "Create category", description = "API to create a new category")
-    @PostMapping("/public/categories")
+    @PostMapping("/admin/categories")
     //@RequestMapping(value = "/public/categories", method = RequestMethod.POST)
     public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
         CategoryDTO savedCategoryDTO = categoryService.createCategory(categoryDTO);
@@ -61,7 +61,6 @@ public class CategoryController {
     public ResponseEntity<CategoryDTO> deleteCategory(@PathVariable Long categoryId) {
         CategoryDTO deleteCategory = categoryService.deleteCategory(categoryId);
         return new ResponseEntity<>(deleteCategory, HttpStatus.OK);
-        //return ResponseEntity.status(HttpStatus.OK).body(status);
     }
 
     @Tag(name = "Category APIs", description = "APIs for managing categories")
