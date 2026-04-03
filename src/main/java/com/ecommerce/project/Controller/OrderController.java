@@ -55,7 +55,7 @@ public class OrderController {
     }
 
     @Tag(name = "Order APIs", description = "APIs for managing orders")
-    @Operation(summary = "Order Data (admin)", description = "API to view Order Data")
+    @Operation(summary = "Order Data", description = "API to view Order Data")
     @GetMapping("/admin/orders")
     public ResponseEntity<OrderResponse> getAllOrders(
             @RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
@@ -67,11 +67,26 @@ public class OrderController {
         return new ResponseEntity<OrderResponse>(orderResponse, HttpStatus.OK);
     }
 
+    @Tag(name = "Order APIs", description = "APIs for managing orders")
+    @Operation(summary = "Order Status Update", description = "API to Update Order Status")
     @PutMapping("/admin/orders/{orderId}/status")
     public ResponseEntity<OrderDTO> updateOrderStatus(@PathVariable Long orderId,
                                                       @RequestBody OrderStatusUpdateDTO orderStatusUpdateDTO) {
         OrderDTO order = orderService.updateOrder(orderId, orderStatusUpdateDTO.getStatus());
         return new ResponseEntity<OrderDTO>(order, HttpStatus.OK);
+    }
+
+    @Tag(name = "Order APIs", description = "APIs for managing orders")
+    @Operation(summary = "Order's Seller", description = "API to view Order's Seller")
+    @GetMapping("/seller/orders")
+    public ResponseEntity<OrderResponse> getAllSellerOrders(
+            @RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
+            @RequestParam(name = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
+            @RequestParam(name = "sortBy", defaultValue = AppConstants.SORT_ORDERS_BY, required = false) String sortBy,
+            @RequestParam(name = "sortOrder", defaultValue = AppConstants.SORT_DIR, required = false) String sortOrder
+    ) {
+        OrderResponse orderResponse = orderService.getAllSellerOrders(pageNumber, pageSize, sortBy, sortOrder);
+        return new ResponseEntity<OrderResponse>(orderResponse, HttpStatus.OK);
     }
 }
 
